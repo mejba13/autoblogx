@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-50">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | AutoBlogX</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+  <div class="w-full max-w-xl bg-white p-12 rounded-xl shadow-xl">
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <h2 class="text-4xl font-extrabold text-center text-gray-900">
+        Create Your <span class="text-indigo-600">AutoBlogX</span> Account
+      </h2>
+
+      {% if error %}
+        <p class="text-red-600 text-center text-sm">{{ error }}</p>
+      {% endif %}
+
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        class="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+      />
+
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        class="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+      />
+
+      <input
+        type="password"
+        name="confirm_password"
+        placeholder="Confirm Password"
+        class="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+      />
+
+      <button
+        type="submit"
+        class="w-full py-4 text-lg bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition"
+      >
+        Register
+      </button>
+
+      <p class="text-center text-sm text-gray-600">
+        Already have an account?
+        <a href="http://127.0.0.1:8000/auth/login/" class="text-indigo-600 hover:underline">Login</a>
+      </p>
+    </form>
+  </div>
+</body>
+</html>
