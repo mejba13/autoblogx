@@ -30,7 +30,7 @@ export default function LandingPage() {
           <span className="text-indigo-600 font-medium">AutoBlogX</span> is your all-in-one AI-powered blog automation solution. <br />
           Create, optimize, and publish content that drives traffic — effortlessly.
         </p>
-        <Link href="/register">
+        <Link href="http://127.0.0.1:8000/auth/register/">
           <button className="px-6 py-3 rounded bg-indigo-600 text-white font-medium hover:bg-indigo-700">
             Get Started
           </button>
