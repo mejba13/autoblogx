@@ -1,6 +1,14 @@
-from sqlalchemy.orm import declarative_base
+# backend/app/models/__init__.py
+from app.core.database import Base
 
-Base = declarative_base()
+# Import models so Alembic sees them
+from .user import User           # noqa: F401
+from .social import SocialAccount, SocialPage, SocialPost  # noqa: F401
 
-# 👇 Import all models here so Alembic detects them during autogenerate
-from app.models.user import User
+__all__ = [
+    "Base",
+    "User",
+    "SocialAccount",
+    "SocialPage",
+    "SocialPost",
+]

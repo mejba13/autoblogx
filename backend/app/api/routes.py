@@ -6,8 +6,16 @@ from app.models import user as models
 from app.core.database import SessionLocal
 from app.schemas.user import UserLogin
 from app.core.security import hash_password, verify_password, create_access_token
+from . import social_facebook
 
 router = APIRouter()
+
+# register the sub‑router
+router.include_router(
+    social_facebook.router,
+    prefix="/social/facebook",
+    tags=["facebook"],
+)
 
 
 def get_db():
