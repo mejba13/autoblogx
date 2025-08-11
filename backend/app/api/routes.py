@@ -1,22 +1,24 @@
+# app/api/routes.py
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.schemas import user as schemas
+from app.schemas.user import UserLogin
 from app.models import user as models
 from app.core.database import SessionLocal
-from app.schemas.user import UserLogin
 from app.core.security import hash_password, verify_password, create_access_token
-from . import social_facebook
+
+# sub-router (Facebook)
+from . import social_facebook  # this module uses `requests`, but routes.py itself doesn't
 
 router = APIRouter()
 
-# register the sub‑router
+# Mount sub-routes
 router.include_router(
     social_facebook.router,
     prefix="/social/facebook",
     tags=["facebook"],
 )
-
 
 def get_db():
     db = SessionLocal()
@@ -25,26 +27,23 @@ def get_db():
     finally:
         db.close()
 
-
 @router.post("/auth/register")
 def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(
+    existing = db.query(models.User).filter(
         (models.User.username == user.username) | (models.User.email == user.email)
     ).first()
-
-    if db_user:
+    if existing:
         raise HTTPException(status_code=400, detail="Username or email already registered")
 
     new_user = models.User(
         username=user.username,
         email=user.email,
-        hashed_password=hash_password(user.password)
+        hashed_password=hash_password(user.password),
     )
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
     return {"message": "User registered successfully"}
-
 
 @router.post("/auth/login")
 def login(user: UserLogin, db: Session = Depends(get_db)):
